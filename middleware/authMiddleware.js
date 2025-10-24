@@ -5,7 +5,10 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || 'ubah_rahasia_jwt_yg_panjang';
 
 export function authMiddleware(req, res, next) {
-  const token = req.cookies?.token;
+  
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
   if (!token) return res.status(401).json({ error: 'Token tidak ditemukan' });
 
   try {
