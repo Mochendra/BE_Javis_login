@@ -11,32 +11,25 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+// GUNAKAN DOMAIN FRONTEND PRODUKSI
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://fe-javis-y8gv.vercel.app';
 
-// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-
-// Handle preflight request
 app.use(cors({
-  origin: FRONTEND_URL, // HARUS spesifik, bukan '*'
-  credentials: true,
+  origin: FRONTEND_URL,
+  credentials: true, // WAJIB
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Routes
 app.use('/api/auth', authRoutes);
 
-// Protected route example
 app.get('/api/dashboard', authMiddleware, (req, res) => {
-  res.json({ message: `Selamat datang di dashboard, ${req.user.name}` });
+  res.json({ message: `Selamat datang di dashboard, ${req.user?.name || 'Pengguna'}` });
 });
 
 app.get('/', (req, res) => res.send('Backend Express berjalan'));
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));

@@ -57,6 +57,8 @@ export async function login(req, res) {
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
     res.cookie('token', token, cookieOptions);
+    console.log('Cookie dikirim ke browser');
+
     return res.json({ message: 'Login berhasil' });
   } catch (err) {
     console.error(err);
