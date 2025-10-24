@@ -9,9 +9,9 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
 const cookieOptions = {
   httpOnly: true,
-  secure: false, // localhost pakai false
-  sameSite: 'lax',
-  maxAge: 1000 * 60 * 60
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  maxAge: 1000 * 60 * 60, 
 };
 
 export async function register(req, res) {

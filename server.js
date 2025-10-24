@@ -17,13 +17,6 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS config
-app.use(cors({
-  origin: FRONTEND_URL,
-  credentials: true, // penting!
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 // Handle preflight request
 app.use(cors({
